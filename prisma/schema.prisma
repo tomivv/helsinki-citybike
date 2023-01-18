@@ -35,7 +35,7 @@ model Return_station {
 }
 
 model Journeys {
-  id                   String            @id @default(cuid())
+  id                   Int            @id @default(autoincrement())
   departure            DateTime          @db.Timestamptz(3)
   return               DateTime          @db.Timestamptz(3)
   departure_station    Departure_station @relation(fields: [departure_station_id], references: [id])
