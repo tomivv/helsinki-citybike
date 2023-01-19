@@ -1,11 +1,21 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Alert from "../../components/Alert";
 
 const Home: NextPage = () => {
-//   const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [alertMsg, setAlertMsg] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  useEffect(() => {
+    // clear alert in 5 seconds
+    if (alertVisible) {
+      setTimeout(() => {
+        setAlertVisible(false);
+      }, 5 * 1000)
+    }
+  }, [alertVisible]);
 
   function handelInputChange (e: React.ChangeEvent<HTMLInputElement>) {
     if(!e.target.files) {
@@ -19,9 +29,10 @@ const Home: NextPage = () => {
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     // raise error that file is not selected
-    if(typeof file == undefined) {
+    if(typeof file == 'undefined') {
+      setAlertMsg("Please select a file");
+      setAlertVisible(true);
       return;
     }
 
@@ -31,6 +42,22 @@ const Home: NextPage = () => {
     fetch(`http://localhost:8080/api/v1/station/bulk`, {
       method: "POST",
       body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 500) {
+        setAlertMsg("There was error saving data. Please try again later!");
+        setAlertVisible(true);
+      }
+      else {
+        setAlertMsg("Successfully saved data");
+        setAlertVisible(true);
+      }
+    })
+    .catch(err => {
+      setAlertMsg("There was error saving data. Please try again later!");
+      setAlertVisible(true);
+      console.log(err);
     });
   }
 
@@ -52,6 +79,7 @@ const Home: NextPage = () => {
               <button type="submit" className="text-white bg-sky-500 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Upload</button>
             </form>
         </div>
+        <Alert message={alertMsg} visible={alertVisible} />
       </main>
     </>
   );
