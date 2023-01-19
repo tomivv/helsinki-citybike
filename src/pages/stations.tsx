@@ -1,16 +1,29 @@
+import type { Departure_station } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { filterStations } from "../helpers/sortArray";
 
 import { api } from "../utils/api";
 
-const Home: NextPage = () => {
-//   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+const Stations: NextPage = () => {
+  const { data } = api.stations.getStations.useQuery();
+
+  const [stations, setStations] = useState<Departure_station[]>([]);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (data) setStations(data);
+  }, [data]);
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
+    if (!data) return;
+    if(e.target.value === "") {
+      setStations(data)
+    } else {
+      setStations(filterStations(data, e.target.value));
+    }
   }
 
   return (
@@ -23,8 +36,8 @@ const Home: NextPage = () => {
       <main className="min-h-screen items-center justify-center bg-slate-800">
         <h1 className="text-white text-4xl pt-4 mb-4 font-extrabold leading-none text-center">Stations</h1>
         <div className="flex flex-col">
-            <label className="text-white text-center text-lg">Search stations</label>
-            <input type="text" className="rounded px-2 py-1 w-2xl mx-auto" value={search} placeholder="Name, address, city" onChange={handleSearchChange}></input>
+            <label htmlFor="search" className="text-white text-center text-lg">Search stations</label>
+            <input id="search" type="text" className="rounded px-2 py-1 w-2xl mx-auto" value={search} placeholder="Name, address, city" onChange={handleSearchChange}></input>
         </div>
         <div className="relative overflow-x-auto shadow-md max-w-2xl mx-auto my-4 rounded">
           <table className="w-full text-sm text-left text-gray-300">
@@ -36,16 +49,13 @@ const Home: NextPage = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-gray-300 border-b hover:bg-gray-600 text-gray-900">
-                <td className="p-4">Kaivopuisto</td>
-                <td className="p-4">Meritori 1</td>
-                <td className="p-4"></td>
+              {stations.slice(0,10).map(s => (
+              <tr className="bg-gray-300 border-b hover:bg-gray-600 text-gray-900" key={s.id}>
+                <td className="p-4">{s.name}</td>
+                <td className="p-4">{s.address}</td>
+                <td className="p-4">{s.city}</td>
               </tr>
-              <tr className="bg-gray-300 hover:bg-gray-600 text-gray-900">
-                <td className="p-4">Sepänkatu</td>
-                <td className="p-4">Tehtaankatu 25</td>
-                <td className="p-4"></td>
-              </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -54,4 +64,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Stations;
