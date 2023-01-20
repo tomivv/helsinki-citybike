@@ -69,12 +69,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen items-center justify-center bg-slate-800">
-        <h1 className="text-white text-4xl pt-4 mb-4 font-extrabold leading-none text-center">Add joyrneys</h1>
+        <h1 className="text-white text-4xl pt-4 mb-4 font-extrabold leading-none text-center">Add journeys</h1>
         <div className="max-w-xl mx-auto">
             <form onSubmit={handleFormSubmit}>
               <div className="mb-2">
-                <label className="block mb-2 text-sm font-medium text-white">Upload a csv-file</label>
-                <input type="file" onChange={handelInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></input>
+                <label htmlFor="upload" className="block mb-2 text-sm font-medium text-white">Upload a csv-file</label>
+                <input id="upload" type="file" onChange={handelInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"></input>
               </div>
               <button type="submit" className="text-white bg-sky-500 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Upload</button>
             </form>
