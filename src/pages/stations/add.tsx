@@ -45,14 +45,15 @@ const Home: NextPage = () => {
     })
     .then(response => response.json())
     .then(data => {
-      if (data.status === 500) {
-        setAlertMsg("There was error saving data. Please try again later!");
-        setAlertVisible(true);
-      }
-      else {
-        setAlertMsg("Successfully saved data");
-        setAlertVisible(true);
-      }
+      // TODO get proper types for data and response
+      // if (data.status === 500) {
+      //   setAlertMsg("There was error saving data. Please try again later!");
+      //   setAlertVisible(true);
+      // }
+      // else {
+      //   setAlertMsg("Successfully saved data");
+      //   setAlertVisible(true);
+      // }
     })
     .catch(err => {
       setAlertMsg("There was error saving data. Please try again later!");
