@@ -39,7 +39,7 @@ const Home: NextPage = () => {
     const formData = new FormData();
     formData.append("file", file as Blob);
 
-    fetch(`http://localhost:8080/api/v1/journey/bulk`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/journey/bulk`, {
       method: "POST",
       body: formData
     })
