@@ -22,9 +22,6 @@ const Home: NextPage = () => {
       return;
     }
     setFile(e.target.files[0]);
-    if(e.target.files[0]) {
-      console.table(e.target.files[0]);
-    }
   }
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -42,24 +39,22 @@ const Home: NextPage = () => {
     if (!process.env.NEXT_PUBLIC_API_URL) return
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/journey/bulk`, {
       method: "POST",
+      mode: "cors",
       body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-      // TODO get proper types for data and response
-      // if (data.status === 500) {
-      //   setAlertMsg("There was error saving data. Please try again later!");
-      //   setAlertVisible(true);
-      // }
-      // else {
-      //   setAlertMsg("Successfully saved data");
-      //   setAlertVisible(true);
-      // }
+    .then(response => {
+      if (response.status === 500) {
+        setAlertMsg("There was error saving data. Please try again later!");
+        setAlertVisible(true);
+      }
+      else {
+        setAlertMsg("Successfully saved data");
+        setAlertVisible(true);
+      }
     })
     .catch(err => {
       setAlertMsg("There was error saving data. Please try again later!");
       setAlertVisible(true);
-      console.log(err);
     });
   }
 
