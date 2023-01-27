@@ -1,7 +1,7 @@
 # Helsinki city bike app
 
 ## Description
-This project displays individual journeys taken with city bikes in Helsinki metropolitan area. Project is currently running frontend at [Vercel](https://helsinki-citybike-j2z5.vercel.app/) and backend in DigitalOcean. Client is a [T3 Stack](https://create.t3.gg/) bootstrapped with `create-t3-app`.
+This project displays individual journeys taken with city bikes in Helsinki metropolitan area. Project is currently running frontend at [Vercel](https://helsinki-citybike.vercel.app/) and backend in DigitalOcean. Client is a [T3 Stack](https://create.t3.gg/) bootstrapped with `create-t3-app`.
 
 ## Prerequisites
 * Nodejs version 19 or higher
