@@ -1,17 +1,24 @@
 import type { Departure_station } from "@prisma/client";
+import { inferRouterOutputs } from "@trpc/server";
 import { type NextPage } from "next";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import Pagination from "../components/Paginations";
 import { filterStations } from "../helpers/sortArray";
-
+import { AppRouter } from "../server/api/root";
 import { api } from "../utils/api";
 
+type RouterOutput = inferRouterOutputs<AppRouter>;
+
+type StationsGetOutput = RouterOutput['stations']['getStations']
+
 const Stations: NextPage = () => {
-  const { data } = api.stations.getStations.useQuery();
-
-  const [stations, setStations] = useState<Departure_station[]>([]);
+  const [stations, setStations] = useState<StationsGetOutput>([0, []]);
   const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState<number>(0);
 
+  const { data } = api.stations.getStations.useQuery({ skip: pagination });
+  
   useEffect(() => {
     if (data) setStations(data);
   }, [data]);
@@ -19,10 +26,11 @@ const Stations: NextPage = () => {
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
     if (!data) return;
+
     if(e.target.value === "") {
       setStations(data)
     } else {
-      setStations(filterStations(data, e.target.value));
+      setStations([pagination, filterStations(data[1], e.target.value)]);
     }
   }
 
@@ -49,7 +57,7 @@ const Stations: NextPage = () => {
               </tr>
             </thead>
             <tbody>
-              {stations.slice(0,10).map(s => (
+              {stations[1].slice(0,10).map(s => (
               <tr className="bg-gray-300 border-b hover:bg-gray-600 text-gray-900" key={s.id}>
                 <td className="p-4">{s.name}</td>
                 <td className="p-4">{s.address}</td>
@@ -59,6 +67,7 @@ const Stations: NextPage = () => {
             </tbody>
           </table>
         </div>
+        <Pagination maxItems={stations[0]} pagination={pagination} setPagination={setPagination} />
       </main>
     </>
   );
