@@ -1,28 +1,52 @@
-# Create T3 App
+# Helsinki city bike app
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Description
+This project displays individual journeys taken with city bikes in Helsinki metropolitan area. Project is currently running frontend at [Vercel](https://helsinki-citybike-j2z5.vercel.app/) and backend in DigitalOcean. Client is a [T3 Stack](https://create.t3.gg/) bootstrapped with `create-t3-app`.
 
-## What's next? How do I make an app with this?
+## Prerequisites
+* Nodejs version 19 or higher
+* Docker
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## How to get started
+This application consists of client and backend. Backend code and instructions are located at [here!](https://github.com/tomivv/helsinki-citybike-server)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+1. Clone repository
+```bash
+git clone https://github.com/tomivv/helsinki-citybike.git
+```
+2. Install dependencies
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```bash
+cd helsinki-citybike
+npm install
+```
 
-## Learn More
+3. Edit env files
+```
+rename .env.example to .env and fill the values
+```
+4. Running app
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```bash
+npm run dev
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+5. Running tests
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+npm run test:e2e
+```
 
-## How do I deploy this?
+6. Building app
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+npm run build
+```
+
+## Technologies used
+
+* Docker
+* PostgreSQL
+* Typescript
+* Next.js + React
+* Java (backend)
