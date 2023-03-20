@@ -13,7 +13,7 @@ export const stationsRouter = createTRPCRouter({
       ctx.prisma.departure_station.count(),
       ctx.prisma.departure_station.findMany({
         take: 10,
-        skip: input.skip,
+        skip: input.skip * 10,
       }),
     ])
   })
